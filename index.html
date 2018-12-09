@@ -1,0 +1,85 @@
+<html>
+<head>
+        <script type="text/javascript" src="lib/pptcreator.js"> </script>
+        <script type="text/javascript" src="lib/jszip.min.js"></script>
+    <script type="text/javascript">
+             
+             const pptTemplate = 'assets/job_info.pptx';
+                
+                const getObjects = () => {
+                  return [{varName : "Bob", varInfo: "Amarelo e quadrado", varJob : "JellyFish Hunter", varDescription : "The protagonist, man of the show. Sounds like Goku sometimes.", imgData : [{name: "Image"}], path : "images/bob.jpg" },
+                    {varName : "Patrick", varInfo: "Rosa e estrela", varJob : "Smart Friend", varDescription : "Super Friend, smart and reliable", imgData : [{name: "Image"}], path : "images/patrick.png" },
+                    {varName : "Sandy", varInfo: "Astronauta", varJob : "Friend from surface", varDescription : "like guns ( probably).", imgData : [{name: "Image"}], path : "images/sandy.png" } ];                   
+                }
+
+                function getPPTTemplate() {
+                    
+                     let promise = new Promise(function(resolve, reject) {
+                        fetch(pptTemplate)
+                            .then(res => res.blob()) // Gets the response and returns it as a blob
+                            .then(blob => {
+                            resolve(blob);
+                            });
+                        })
+                        return promise;
+                }
+
+                const loadImage = obj => {                
+                    var promise = new Promise( resolve=> {
+                        var image = new Image();
+                        var canvas = document.createElement("canvas"),
+                        canvasContext = canvas.getContext("2d");
+                        image.crossOrigin = "Anonymous";
+                        image.onload = function() {
+
+                            canvas.width = image.width;
+                            canvas.height = image.height;
+                            canvasContext.drawImage(image, 0, 0, image.width, image.height);                                        
+                            var data = canvas.toDataURL("image/jpeg").split(',')[1];
+                            resolve(data);
+                        }
+
+                        image.src = obj.path;                        
+                        });
+
+                        return promise;
+                }
+
+                const exp = () => {
+                    // Get the data
+                    let objs = {data : getObjects()};
+                    // Convert the image data (load the image and put on imgData array)
+                    let pr = objs.data.map(item => loadImage(item).then(blob => item.imgData[0].data = blob));                    
+                    let pptx = new Presentation();
+                    let pro = new Promise(resolve => {
+                    Promise.all(pr).then(getPPTTemplate().then(template => {
+                                 pptx.load(template).then(() => {
+                                    pptx.processSlides(objs);
+                                    pptx.toBuffer().then(function(content) {
+                                        resolve(content);
+                                        });
+                                    }); 
+                                }));
+                            });
+                    return pro;
+                }
+
+                function exportPPT() {
+                        exp().then(function(content) {
+                            var blob = new Blob([content]);
+                            var link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = "PhotoBook.pptx"
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        });
+                }
+    </script>
+</head>
+<body>
+    <img src="images/logo.png" height="140" />
+<div> <p> Export all users to PPT </p>
+     <input type="button" value="Export PPT" onclick="exportPPT()" /> </div>
+</body>
+</html>
