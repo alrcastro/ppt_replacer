@@ -7,9 +7,9 @@
              const pptTemplate = 'assets/job_info.pptx';
                 
                 const getObjects = () => {
-                  return [{varName : "Bob", varInfo: "Amarelo e quadrado", varJob : "JellyFish Hunter", varDescription : "The protagonist, man of the show. Sounds like Goku sometimes.", imgData : [{name: "Image"}], path : "images/bob.jpg" },
-                    {varName : "Patrick", varInfo: "Rosa e estrela", varJob : "Smart Friend", varDescription : "Super Friend, smart and reliable", imgData : [{name: "Image"}], path : "images/patrick.png" },
-                    {varName : "Sandy", varInfo: "Astronauta", varJob : "Friend from surface", varDescription : "like guns ( probably).", imgData : [{name: "Image"}], path : "images/sandy.png" } ];                   
+                  return [{varName : "Bob", varInfo: "Amarelo e quadrado", varJob : "JellyFish Hunter", varDescription : "The protagonist, man of the show. Sounds like Goku sometimes.", imgData : [{name: "Image",  path : "images/bob.jpg" }] },
+                    {varName : "Patrick", varInfo: "Rosa e estrela", varJob : "Smart Friend", varDescription : "Super Friend, smart and reliable", imgData : [{name: "Image", path : "images/patrick.png"}] },
+                    {varName : "Sandy", varInfo: "Astronauta", varJob : "Friend from surface", varDescription : "like guns ( probably).", imgData : [{name: "Image", path : "images/sandy.png"}] }];                   
                 }
 
                 function getPPTTemplate() {
@@ -43,6 +43,15 @@
                         });
 
                         return promise;
+                }
+
+                const generateAndDownload = () => {
+                    // Set the common Image (logo) and the object data
+                    let objs = { imgData: [{name: 'Logo', path: 'images/logo.png'}],
+                                 data : getObjects()};
+                    let pptx = new Presentation();
+                    pptx.loadAndProcess(objs, pptTemplate).then(() => { pptx.downloadBuffer() });
+
                 }
 
                 const exp = () => {
