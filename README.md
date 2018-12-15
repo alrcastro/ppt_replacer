@@ -28,5 +28,7 @@ pptx.loadAndProcess(obj, pptTemplate).then(() => { pptx.downloadBuffer() });
 ```
 Ele retorna uma *promise* e depois basta chamar o `downloadBuffer` para fazer o download do ppt
 
+###### ENG
+The goal of this library is to export a presentation based on a template and a javascript array as model.
 ### Sample/Exemplo
 You can try at https://cleo-209421.firebaseapp.com/ 
