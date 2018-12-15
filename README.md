@@ -9,21 +9,21 @@ O template é um slide aonde ele basicamente substituirá o texto (que vai ser o
 
 ### O Código
 O objeto principal precisa seguir essas condições:
-Os dados devem estar dentro de 'data' e as imagens dentro de 'imgData'. 
+Os dados devem estar dentro de `data` e as imagens dentro de `imgData`. 
 Por exemplo:  Se no template você quer substituir os valores de varNome e varDescricao você teria esse objeto:
-...
+```
  let obj = { data: [ 
 					 {varNome: 'Jose', varDescription: 'CEO'},
 					 {varNome: 'Raimundo', varDescription: 'Professor'}
 					 ]};
-...
+```
 A propriedade = Nome que deseja substituir e o valor = novo valor.
 Depois basta instanciar a classe e chamar o método loadAndProcess passando o path do template e seu objeto:
-...
+```
 	const pptTemplate = 'assets/job_info.pptx';
     let pptx = new Presentation();
 	pptx.loadAndProcess(obj, pptTemplate).then(() => { pptx.downloadBuffer() });
-...
+```
 Ele retorna uma promise e depois basta chamar o downloadBuffer para fazer o download do ppt
 
 ### Sample/Exemplo
