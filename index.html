@@ -1,7 +1,7 @@
 <html>
 <head>
-        <script type="text/javascript" src="lib/pptcreator.js"> </script>
-        <script type="text/javascript" src="lib/jszip.min.js"></script>
+    <script type="text/javascript" src="lib/pptcreator.js"> </script>
+    <script type="text/javascript" src="lib/jszip.min.js"></script>
     <script type="text/javascript">
              
              const pptTemplate = 'assets/job_info.pptx';
@@ -21,11 +21,24 @@
 
                 }
 
+                const initialize = () => {
+                    document.getElementById("code").innerHTML = JSON.stringify(getObjects());
+                }
+
     </script>
 </head>
-<body>
+<body onload="initialize()">
+    <div> This is the company Logo, will stay in all the slides </div>
     <img src="images/logo.png" height="140" />
-<div> <p> Export all users to PPT </p>
+
+    <div> <p> Export all users to PPT </p>
      <input type="button" value="Export PPT" onclick="generateAndDownload()" /> </div>
+     <br />
+
+     <div>
+         You can download ONLY the current template <a href="assets/job_info.pptx">here</a>
+     </div>
+     <p> The current obj is :</p>
+     <p id="code"> </p>
 </body>
 </html>
